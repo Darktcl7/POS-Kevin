@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS Kevin - Modern UI Mockup</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        :root {
+            /* Color Palette for Coffee Shop (Dark Modern) */
+            --bg-base: #0f0f13;
+            --bg-panel: #1a1a20;
+            --bg-elevated: #272730;
+            --primary: #c98a58; /* Warm coffee brown */
+            --primary-hover: #b37847;
+            --text-main: #fcfcfc;
+            --text-muted: #8e8e99;
+            --danger: #ff5252;
+            --success: #1cd485;
+            
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-full: 9999px;
+            
+            --shadow: 0 8px 32px rgba(0,0,0,0.2);
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+            user-select: none; /* Good for tablet */
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 90px;
+            background-color: var(--bg-panel);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 24px 0;
+            gap: 32px;
+            border-right: 1px solid rgba(255,255,255,0.05);
+            z-index: 10;
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), #e6b981);
+            border-radius: 14px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            font-size: 24px;
+            box-shadow: 0 4px 20px rgba(201, 138, 88, 0.3);
+            color: #000;
+        }
+
+        .nav-items {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            flex: 1;
+        }
+
+        .nav-item {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: var(--radius-md);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 28px;
+        }
+
+        .nav-item.active {
+            background-color: var(--primary);
+            color: #121212;
+            box-shadow: 0 4px 16px rgba(201, 138, 88, 0.2);
+        }
+
+        .nav-item:hover:not(.active) {
+            background-color: var(--bg-elevated);
+            color: var(--text-main);
+        }
+
+        .sidebar-bottom {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-full);
+            background-image: url('https://i.pravatar.cc/100?img=33');
+            background-size: cover;
+            border: 2px solid var(--bg-elevated);
+            cursor: pointer;
+        }
+
+        /* MAIN AREA */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 24px 32px;
+            overflow-y: auto;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        /* SEARCH & CATEGORIES */
+        .header-controls {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 32px;
+            align-items: center;
+        }
+
+        .search-bar {
+            flex: 1;
+            background-color: var(--bg-panel);
+            border-radius: var(--radius-full);
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: var(--transition);
+        }
+
+        .search-bar:focus-within {
+            border-color: var(--primary);
+            background-color: var(--bg-elevated);
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-main);
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .search-bar input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .categories {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            /* hide scrollbar */
+            scrollbar-width: none;
+        }
+        .categories::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-btn {
+            padding: 12px 24px;
+            background-color: var(--bg-panel);
+            border-radius: var(--radius-full);
+            color: var(--text-muted);
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: var(--transition);
+        }
+
+        .category-btn.active {
+            background-color: var(--text-main);
+            color: var(--bg-base);
+            border-color: var(--text-main);
+        }
+
+        .category-btn:hover:not(.active) {
+            background-color: var(--bg-elevated);
+            color: var(--text-main);
+        }
+
+        /* PRODUCTS GRID */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            padding-bottom: 24px;
+        }
+
+        .product-card {
+            background-color: var(--bg-panel);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid rgba(255,255,255,0.02);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            background-color: var(--bg-elevated);
+            border-color: rgba(255,255,255,0.1);
+            box-shadow: var(--shadow);
+        }
+
+        .product-card:active {
+            transform: translateY(0);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 140px;
+            background-color: #2a2a35;
+            border-radius: var(--radius-md);
+            object-fit: cover;
+        }
+
+        .product-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .product-name {
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 1.3;
+        }
+
+        .product-price {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        /* ORDER PANEL */
+        .order-panel {
+            width: 380px;
+            background-color: var(--bg-panel);
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid rgba(255,255,255,0.05);
+            z-index: 10;
+        }
+
+        .order-header {
+            padding: 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .order-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .order-header-top h2 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .order-id {
+            background: rgba(255,255,255,0.1);
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .order-types {
+            display: flex;
+            background-color: var(--bg-base);
+            border-radius: var(--radius-md);
+            padding: 4px;
+        }
+
+        .order-type-btn {
+            flex: 1;
+            text-align: center;
+            padding: 10px 0;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+
+        .order-type-btn.active {
+            background-color: var(--bg-panel);
+            color: var(--text-main);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* CART ITEMS */
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .cart-item-img {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            object-fit: cover;
+            background-color: #2a2a35;
+        }
+
+        .cart-item-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .cart-item-name {
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .cart-item-price {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            background-color: var(--bg-base);
+            border-radius: 12px;
+            padding: 4px;
+        }
+
+        .qty-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            background-color: transparent;
+            color: var(--text-main);
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+        }
+
+        .qty-btn:hover {
+            background-color: var(--bg-panel);
+        }
+
+        .qty-value {
+            width: 24px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* ORDER FOOTER */
+        .order-footer {
+            padding: 24px;
+            background-color: var(--bg-panel);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-muted);
+            font-size: 15px;
+        }
+
+        .summary-row.total {
+            color: var(--text-main);
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: 8px;
+            padding-top: 16px;
+            border-top: 1px dashed rgba(255,255,255,0.1);
+        }
+
+        .total-price {
+            color: var(--primary);
+        }
+
+        .pay-btn {
+            background-color: var(--primary);
+            color: #121212;
+            border: none;
+            border-radius: var(--radius-md);
+            padding: 18px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 8px 24px rgba(201, 138, 88, 0.25);
+        }
+
+        .pay-btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .pay-btn:active {
+            transform: translateY(0);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="logo">K</div>
+        <div class="nav-items">
+            <div class="nav-item active"><i class="ph ph-squares-four"></i></div>
+            <div class="nav-item"><i class="ph ph-receipt"></i></div>
+            <div class="nav-item"><i class="ph ph-chart-pie-slice"></i></div>
+            <div class="nav-item"><i class="ph ph-users"></i></div>
+        </div>
+        <div class="sidebar-bottom">
+            <div class="nav-item"><i class="ph ph-gear"></i></div>
+            <div class="avatar"></div>
+        </div>
+    </div>
+
+    <!-- MAIN DASHBOARD -->
+    <div class="main-content">
+        <h1>Welcome, Kevin</h1>
+        <div class="subtitle">Discover whatever you need easily</div>
+
+        <div class="header-controls">
+            <div class="search-bar">
+                <i class="ph ph-magnifying-glass" style="color: var(--text-muted); font-size: 20px;"></i>
+                <input type="text" placeholder="Search for food, coffee, etc...">
+            </div>
+        </div>
+
+        <div class="categories" style="margin-bottom: 24px;">
+            <div class="category-btn active"><i class="ph ph-coffee"></i> Coffee</div>
+            <div class="category-btn"><i class="ph ph-pint-glass"></i> Non-Coffee</div>
+            <div class="category-btn"><i class="ph ph-cake"></i> Pastry</div>
+            <div class="category-btn"><i class="ph ph-hamburger"></i> Meals</div>
+            <div class="category-btn"><i class="ph ph-ice-cream"></i> Desserts</div>
+            <div class="category-btn"><i class="ph ph-package"></i> Retail</div>
+        </div>
+
+        <div class="products-grid">
+            <!-- Product 1 -->
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Espresso" class="product-img">
+                <div class="product-info">
+                    <div class="product-name">Signature Espresso</div>
+                    <div class="product-price">Rp 25.000</div>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Latte" class="product-img">
+                <div class="product-info">
+                    <div class="product-name">Caramel Macchiato</div>
+                    <div class="product-price">Rp 35.000</div>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Cappuccino" class="product-img">
+                <div class="product-info">
+                    <div class="product-name">Classic Cappuccino</div>
+                    <div class="product-price">Rp 30.000</div>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1517559114250-9bb6da097bc2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Matcha" class="product-img">
+                <div class="product-info">
+                    <div class="product-name">Matcha Latte</div>
+                    <div class="product-price">Rp 38.000</div>
+                </div>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1550461716-4eb158d60db2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Croissant" class="product-img">
+                <div class="product-info">
+                    <div class="product-name">Butter Croissant</div>
+                    <div class="product-price">Rp 20.000</div>
+                </div>
+            </div>
+
+             <!-- Product 6 -->
+             <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1509368812674-8b63e80f2eb1?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Brownie" class="product-img">
+                <div class="product-info">
+                    <div class="product-name">Fudge Brownie</div>
+                    <div class="product-price">Rp 22.000</div>
+                </div>
+            </div>
+             <!-- Product 7 -->
+             <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1611162458324-aae1eb4129a4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Cold Brew" class="product-img">
+                <div class="product-info">
+                    <div class="product-name">Cold Brew</div>
+                    <div class="product-price">Rp 32.000</div>
+                </div>
+            </div>
+            <!-- Product 8 -->
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1541095945-802c617c0934?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Americano" class="product-img">
+                <div class="product-info">
+                    <div class="product-name">Iced Americano</div>
+                    <div class="product-price">Rp 28.000</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CURRENT ORDER PANEL -->
+    <div class="order-panel">
+        <div class="order-header">
+            <div class="order-header-top">
+                <h2>Current Order</h2>
+                <div class="order-id">#INV-0001</div>
+            </div>
+            <div class="order-types">
+                <div class="order-type-btn active">Dine In</div>
+                <div class="order-type-btn">Take Away</div>
+            </div>
+        </div>
+
+        <div class="cart-items">
+            <!-- Cart Item 1 -->
+            <div class="cart-item">
+                <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=60" alt="Latte" class="cart-item-img">
+                <div class="cart-item-info">
+                    <div class="cart-item-name">Caramel Macchiato</div>
+                    <div class="cart-item-price">Rp 35.000</div>
+                </div>
+                <div class="qty-controls">
+                    <button class="qty-btn"><i class="ph ph-minus"></i></button>
+                    <div class="qty-value">2</div>
+                    <button class="qty-btn"><i class="ph ph-plus"></i></button>
+                </div>
+            </div>
+
+            <!-- Cart Item 2 -->
+            <div class="cart-item">
+                <img src="https://images.unsplash.com/photo-1550461716-4eb158d60db2?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=60" alt="Croissant" class="cart-item-img">
+                <div class="cart-item-info">
+                    <div class="cart-item-name">Butter Croissant</div>
+                    <div class="cart-item-price">Rp 20.000</div>
+                </div>
+                <div class="qty-controls">
+                    <button class="qty-btn"><i class="ph ph-minus"></i></button>
+                    <div class="qty-value">1</div>
+                    <button class="qty-btn"><i class="ph ph-plus"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="order-footer">
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <span>Rp 90.000</span>
+            </div>
+            <div class="summary-row">
+                <span>Tax (11%)</span>
+                <span>Rp 9.900</span>
+            </div>
+            <div class="summary-row total">
+                <span>Total</span>
+                <span class="total-price">Rp 99.900</span>
+            </div>
+            <button class="pay-btn">
+                Pay Now <i class="ph ph-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+</body>
+</html>
