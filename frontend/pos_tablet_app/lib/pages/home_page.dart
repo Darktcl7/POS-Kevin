@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:html' as html;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../state/pos_store.dart';
@@ -75,6 +77,8 @@ class PosHomePageState extends State<PosHomePage> {
                     if (!kIsWeb) _buildNavItem(Icons.sync_rounded, 2, syncAlerts > 0),
                   ],
                   const Spacer(),
+                  if (kIsWeb)
+                    _buildDownloadApkButton(),
                   _buildNavItem(Icons.settings, 3, false), 
                   const SizedBox(height: 16),
                   const CircleAvatar(
@@ -142,6 +146,30 @@ class PosHomePageState extends State<PosHomePage> {
                  child: Container(width: 8, height: 8, decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle)),
                ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDownloadApkButton() {
+    return GestureDetector(
+      onTap: () {
+        if (kIsWeb) {
+          html.window.open('/pos-tablet-app.apk', '_blank');
+        }
+      },
+      child: Container(
+        width: 56,
+        height: 56,
+        margin: const EdgeInsets.only(bottom: 16),
+        decoration: BoxDecoration(
+          color: const Color(0xFFE8F4F1),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: const Color(0xFF1E6F62).withOpacity(0.3)),
+        ),
+        child: const Tooltip(
+          message: 'Download Aplikasi Tablet (APK)',
+          child: Icon(Icons.android, color: Color(0xFF1E6F62), size: 28),
         ),
       ),
     );
